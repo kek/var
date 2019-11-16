@@ -3,16 +3,39 @@ defmodule Var do
   Documentation for Var.
   """
 
-  @doc """
-  Hello world.
+  def step(g, fun) do
+    fun.(g)
+  end
 
-  ## Examples
+  def set(g, k, v) do
+    Map.put(g, k, v)
+  end
 
-      iex> Var.hello()
-      :world
+  def new() do
+    %{}
+  end
 
-  """
-  def hello do
-    :world
+  def ifzero(g, key, if_true, if_false) do
+    if Map.get(g, key) == 0 do
+      if_true.(g)
+    else
+      if_false.(g)
+    end
+  end
+
+  def ifequals(g, key, test_value, if_true, if_false) do
+    if Map.get(g, key) == test_value do
+      if_true.(g)
+    else
+      if_false.(g)
+    end
+  end
+
+  def while_unset(g, key, fun) do
+    if Map.get(g, key) do
+      g
+    else
+      while_unset(fun.(g), key, fun)
+    end
   end
 end
